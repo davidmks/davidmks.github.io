@@ -1,0 +1,53 @@
+---
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Toggle theme"
+  class="text-muted hover:text-ink transition-colors cursor-pointer leading-none"
+>
+  <svg id="icon-light" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5" />
+    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+  </svg>
+  <svg id="icon-dark" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+  </svg>
+</button>
+
+<script>
+  function setupThemeToggle() {
+    const toggle = document.getElementById('theme-toggle');
+    const iconLight = document.getElementById('icon-light');
+    const iconDark = document.getElementById('icon-dark');
+
+    function isDark() {
+      return document.documentElement.classList.contains('dark');
+    }
+
+    function updateIcon() {
+      iconLight!.classList.toggle('hidden', isDark());
+      iconDark!.classList.toggle('hidden', !isDark());
+    }
+
+    updateIcon();
+
+    toggle?.addEventListener('click', () => {
+      const dark = !isDark();
+      document.documentElement.classList.toggle('dark', dark);
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      updateIcon();
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+        updateIcon();
+      }
+    });
+  }
+
+  setupThemeToggle();
+  document.addEventListener('astro:after-swap', setupThemeToggle);
+</script>

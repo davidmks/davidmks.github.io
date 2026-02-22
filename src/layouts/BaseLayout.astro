@@ -1,0 +1,89 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import { SITE_CONFIG, AVATAR, OG_IMAGE } from '../site';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const pageTitle = title ? `${title} — ${SITE_CONFIG.name}` : SITE_CONFIG.name;
+const pageDescription = description || SITE_CONFIG.description;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE_CONFIG.name} href="/rss.xml" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content={SITE_CONFIG.author} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={new URL(OG_IMAGE, Astro.site)} />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={new URL(OG_IMAGE, Astro.site)} />
+
+    <ViewTransitions />
+
+    <script is:inline>
+      function isDarkTheme() {
+        var theme = localStorage.getItem('theme');
+        return theme === 'dark' || (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+      if (isDarkTheme()) document.documentElement.classList.add('dark');
+      document.addEventListener('astro:before-swap', function(e) {
+        e.newDocument.documentElement.classList.toggle('dark', isDarkTheme());
+      });
+    </script>
+  </head>
+  <body class="min-h-screen bg-page text-ink">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-3 focus:py-1.5 focus:text-sm focus:bg-surface focus:border focus:border-line focus:rounded">Skip to content</a>
+    <div class="max-w-3xl mx-auto px-4 py-8 sm:py-20">
+      <header class="flex items-center justify-between mb-12 sm:mb-16">
+        <nav class="flex items-center gap-5 sm:gap-6 text-base">
+          {SITE_CONFIG.nav.map((link) => (
+            <a
+              href={link.href}
+              class:list={[
+                'no-underline transition-colors',
+                currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href))
+                  ? 'text-ink font-medium'
+                  : 'text-muted hover:text-ink',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+        <ThemeToggle />
+      </header>
+
+      <main id="main">
+        <slot />
+      </main>
+
+      <footer class="mt-16 sm:mt-24 pt-6 border-t border-line flex items-center justify-between text-xs text-muted">
+        <span>&copy; {new Date().getFullYear()} {SITE_CONFIG.name}</span>
+        <a href="/rss.xml" class="text-muted hover:text-ink no-underline">RSS</a>
+      </footer>
+    </div>
+  </body>
+</html>

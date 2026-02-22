@@ -1,0 +1,60 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import { formatDate, WORDS_PER_MINUTE } from '../utils';
+import type { CollectionEntry } from 'astro:content';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  headings: Heading[];
+}
+
+const { post, headings } = Astro.props;
+const { title, description, pubDate, updatedDate } = post.data;
+
+const formattedDate = formatDate(pubDate);
+const formattedUpdated = updatedDate ? formatDate(updatedDate) : undefined;
+
+// Reading time
+const words = post.body?.split(/\s+/).length ?? 0;
+const readingTime = Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
+---
+
+<BaseLayout title={title} description={description}>
+  <article>
+    <header class="mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold leading-tight mb-3">{title}</h1>
+      <div class="flex items-center gap-2 text-sm text-muted">
+        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        {formattedUpdated && <span>(updated {formattedUpdated})</span>}
+        <span class="text-line">&middot;</span>
+        <span>{readingTime} min read</span>
+      </div>
+      {post.data.tags.length > 0 && (
+        <div class="flex items-center gap-2 mt-2">
+          {post.data.tags.map((tag) => (
+            <span class="text-xs px-2 py-0.5 rounded-full bg-surface border border-line text-muted">{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <TableOfContents headings={headings} />
+
+    <div class="prose prose-base max-w-none">
+      <slot />
+    </div>
+  </article>
+
+  <nav class="mt-12 pt-6 border-t border-line text-sm">
+    <a href="/blog" class="text-muted hover:text-ink no-underline transition-colors">
+      &larr; All posts
+    </a>
+  </nav>
+</BaseLayout>
