@@ -65,7 +65,7 @@ const currentPath = Astro.url.pathname;
               class:list={[
                 'no-underline transition-colors',
                 currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href))
-                  ? 'text-ink font-medium'
+                  ? 'text-ink font-semibold'
                   : 'text-muted hover:text-ink',
               ]}
             >
