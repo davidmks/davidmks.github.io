@@ -10,10 +10,27 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const pageTitle = title ? `${title} — ${SITE_CONFIG.name}` : SITE_CONFIG.name;
+const pageTitle = title
+  ? `${title} - ${SITE_CONFIG.name}`
+  : `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`;
 const pageDescription = description || SITE_CONFIG.description;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const currentPath = Astro.url.pathname;
+
+const siteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_CONFIG.name,
+  url: Astro.site?.toString(),
+  description: SITE_CONFIG.description,
+  author: {
+    '@type': 'Person',
+    name: SITE_CONFIG.author,
+    jobTitle: SITE_CONFIG.tagline,
+    url: Astro.site?.toString(),
+    sameAs: [SITE_CONFIG.social.github, SITE_CONFIG.social.linkedin],
+  },
+};
 ---
 
 <!doctype html>
@@ -22,6 +39,9 @@ const currentPath = Astro.url.pathname;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title={SITE_CONFIG.name} href="/rss.xml" />
     <link rel="canonical" href={canonicalURL} />
@@ -31,15 +51,19 @@ const currentPath = Astro.url.pathname;
     <meta name="author" content={SITE_CONFIG.author} />
 
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_CONFIG.name} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     <meta property="og:image" content={new URL(OG_IMAGE, Astro.site)} />
+    <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={new URL(OG_IMAGE, Astro.site)} />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(siteSchema)} />
 
     <ViewTransitions />
 

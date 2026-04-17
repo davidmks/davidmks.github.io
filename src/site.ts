@@ -6,7 +6,8 @@ export const OG_IMAGE = '/og-image.png';
 
 export const SITE_CONFIG = {
   name: 'Dávid Miklós',
-  description: 'Writing on software (and everything else)',
+  tagline: 'Software Engineer',
+  description: 'This is where I write about software, work, and whatever else is on my mind.',
   author: 'Dávid Miklós',
   email: 'david.miklos.work@gmail.com',
 
