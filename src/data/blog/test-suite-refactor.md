@@ -1,5 +1,5 @@
 ---
-title: "I let Claude refactor our test suite (it mostly worked)"
+title: "I let Claude refactor our entire unit test suite (it mostly worked)"
 description: "A week-long experiment refactoring our entire test suite with a coding agent."
 pubDate: 2026-04-16
 tags: ["testing", "ai", "python", "refactoring"]
