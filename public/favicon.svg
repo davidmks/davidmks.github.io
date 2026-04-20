@@ -1,17 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <text
-    x="50"
-    y="50"
-    font-size="80"
-    font-weight="400"
-    text-anchor="middle"
-    dominant-baseline="central"
-    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
-  >D</text>
   <style>
-    text { fill: #1A1A1A; }
+    path { fill: #1A1A1A; }
     @media (prefers-color-scheme: dark) {
-      text { fill: #E4E4E7; }
+      path { fill: #E4E4E7; }
     }
   </style>
+  <path fill-rule="evenodd" d="M22,17 H52 A33,33 0 0 1 52,83 H22 Z M30,25 H52 A25,25 0 0 1 52,75 H30 Z" />
 </svg>
