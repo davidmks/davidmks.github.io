@@ -121,6 +121,7 @@ a:hover {
   padding: 0.15em 0.4em;
   font-size: 0.85em;
   font-weight: 400;
+  white-space: nowrap;
 }
 
 .prose pre {
