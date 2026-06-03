@@ -1,0 +1,7 @@
+# sarj per-project configuration
+# See https://github.com/davidmks/sarj
+
+# Install deps into each new worktree. Kept isolated (not a node_modules
+# symlink) so two dev servers can run side by side without sharing the
+# Vite/Astro caches under node_modules.
+setup_command = "bun install"
