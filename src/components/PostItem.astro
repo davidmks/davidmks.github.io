@@ -12,16 +12,9 @@ const { post } = Astro.props;
 <li class="flex items-baseline gap-4">
   <time
     datetime={post.data.pubDate.toISOString()}
-    class="shrink-0 text-sm tabular-nums text-muted"
+    class="accent-date shrink-0 text-sm tabular-nums whitespace-nowrap"
   >
     {formatDate(post.data.pubDate)}
   </time>
-  <div>
-    <a
-      href={`/blog/${post.id}`}
-      class="text-ink no-underline hover:text-accent transition-colors"
-    >
-      {post.data.title}
-    </a>
-  </div>
+  <a href={`/blog/${post.id}`} class="text-ink">{post.data.title}</a>
 </li>

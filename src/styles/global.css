@@ -28,26 +28,43 @@
   src: url("/fonts/inter-700.woff2") format("woff2");
 }
 
+/* Self-hosted Newsreader (variable) — display serif for name + headings */
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/newsreader.woff2") format("woff2");
+}
+
 /* Color tokens — swap automatically with .dark */
 :root {
   --page: #ffffff;
   --ink: #171717;
   --muted: #737373;
-  --accent: oklch(60% 0.118 184.704);
   --line: #e5e5e5;
   --surface: #fafafa;
   --code: #f5f5f5;
+
+  /* Accent — pick ONE (light-mode shade). All commented → monochrome. */
+  /* --accent: #5b7aa6; */ /* slate-blue */
+  /* --accent: #a06f24; */ /* warm gold */
+  /* --accent: #b35e38; */ /* terracotta */
 }
 
 .dark {
   --page: #0a0a0a;
   --ink: #ededed;
   --muted: #a3a3a3;
-  --accent: oklch(60% 0.118 184.704);
   --line: #262626;
   --surface: #141414;
   --code: #171717;
   color-scheme: dark;
+
+  /* Accent — keep the SAME hue uncommented as in :root (dark-mode shade). */
+  /* --accent: #7d9bc1; */ /* slate-blue */
+  /* --accent: #cda35a; */ /* warm gold */
+  /* --accent: #c47a52; */ /* terracotta */
 }
 
 /* Register as first-class Tailwind utilities */
@@ -59,42 +76,77 @@
   --color-line: var(--line);
   --color-surface: var(--surface);
   --color-code: var(--code);
-
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   --font-mono: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
 }
 
 html {
   font-family: var(--font-sans);
   background-color: var(--page);
   color: var(--ink);
-  font-size: 16px;
-  line-height: 1.5em;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-h1 {
-  margin-bottom: 0.3em;
-  line-height: 1.2em;
+/* Serif display for headings; body stays Inter. In @layer base so a font-*
+   utility on a heading can still override it. */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+  }
 }
 
 ::selection {
-  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  background-color: color-mix(in srgb, var(--muted) 30%, transparent);
 }
 
-a {
+/* Content links: thin pale underline that darkens to ink on hover (monochrome).
+   In @layer base so nav/utility links opt out with the standard .no-underline
+   utility (utilities layer wins over base). */
+@layer base {
+  a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--muted) 45%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+    transition: text-decoration-color 0.15s ease;
+  }
+
+  a:hover {
+    color: var(--accent, var(--ink));
+    text-decoration-color: var(--accent, var(--ink));
+  }
+}
+
+/* Link-styled button (click-to-copy email) */
+.copy-link {
+  font: inherit;
   color: var(--ink);
-  text-decoration: none;
-  border-bottom: solid 2px var(--accent);
+  background: none;
+  border: none;
   padding: 0;
-  transition: color 0.15s ease;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--muted) 45%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  transition: text-decoration-color 0.15s ease;
 }
 
-a:hover {
-  color: var(--accent);
+.copy-link:hover {
+  text-decoration-color: var(--ink);
+}
+
+/* Post-list date stamps pick up the accent; fall back to muted when no accent set */
+.accent-date {
+  color: var(--accent, var(--muted));
 }
 
 /* Prose overrides for blog content */
@@ -153,6 +205,7 @@ pre.astro-code {
   margin-top: 2em;
   margin-bottom: 0.75em;
   font-size: 1.5em;
+  font-weight: 600; /* match h1; hierarchy carried by size, not weight */
   line-height: 1.25;
 }
 
@@ -160,5 +213,6 @@ pre.astro-code {
   margin-top: 1.75em;
   margin-bottom: 0.5em;
   font-size: 1.25em;
+  font-weight: 600;
   line-height: 1.3;
 }
