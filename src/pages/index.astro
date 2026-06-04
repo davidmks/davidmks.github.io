@@ -10,14 +10,14 @@ const recentPosts = (await getPublishedPosts()).slice(0, 5);
 <BaseLayout>
   <!-- Intro -->
   <section class="mb-14">
-    <div class="flex items-start justify-between">
-      <div>
+    <div class="flex items-start justify-between gap-8">
+      <div class="max-w-xl">
         <h1 class="text-3xl sm:text-4xl font-semibold mb-4">Dávid Miklós</h1>
         <p>
           I'm a software engineer at <a href="https://www.lizy.be/fr">LIZY</a>, where I build cloud platforms.
         </p>
         <p class="mt-4">
-          What drives me most is improving how engineers work: better tooling,<br /> stronger patterns, healthier codebases.
+          What drives me most is improving how engineers work: better tooling, stronger patterns, healthier codebases.
         </p>
       </div>
       <img
