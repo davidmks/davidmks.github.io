@@ -209,6 +209,13 @@ pre.astro-code {
   text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
+/* Hover colors the whole link (text + underline). Typography pins prose link
+   color to ink, so this explicit rule is needed to recolor the text in prose. */
+.prose a:hover {
+  color: var(--accent, var(--ink));
+  text-decoration-color: var(--accent, var(--ink));
+}
+
 .prose blockquote {
   font-style: normal;
   border-left-width: 2px;
