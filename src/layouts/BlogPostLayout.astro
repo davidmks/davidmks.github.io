@@ -31,7 +31,7 @@ const readingTime = Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
   description={description}
   article={{ publishedTime: pubDate, modifiedTime: updatedDate }}
 >
-  <article>
+  <article class="max-w-2xl">
     <header class="mb-8">
       <h1 class="text-3xl sm:text-4xl font-semibold leading-tight mb-3">{title}</h1>
       <div class="flex items-center gap-2 text-sm text-muted">
@@ -56,7 +56,7 @@ const readingTime = Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
     </div>
   </article>
 
-  <nav class="mt-12 pt-6 border-t border-line text-sm">
+  <nav class="mt-12 pt-6 border-t border-line text-sm max-w-2xl">
     <a href="/blog" class="text-muted hover:text-ink no-underline transition-colors">
       &larr; All posts
     </a>
