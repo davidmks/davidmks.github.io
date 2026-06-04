@@ -106,6 +106,7 @@ html {
   h3 {
     font-family: var(--font-serif);
     letter-spacing: -0.01em;
+    text-wrap: balance; /* even line lengths on multi-line headings */
   }
 }
 
@@ -194,6 +195,13 @@ html {
   border: 1px solid var(--line);
   font-size: 0.875rem;
   line-height: 1.6;
+}
+
+/* Improve the right-edge rag and avoid stubby last lines in body copy.
+   Progressive enhancement: browsers without text-wrap: pretty just ignore it. */
+.prose p,
+.prose li {
+  text-wrap: pretty;
 }
 
 /* Shiki dual theme — light by default, dark when .dark is on */
