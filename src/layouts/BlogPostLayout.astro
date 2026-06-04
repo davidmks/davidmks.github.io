@@ -26,7 +26,11 @@ const words = post.body?.split(/\s+/).length ?? 0;
 const readingTime = Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  article={{ publishedTime: pubDate, modifiedTime: updatedDate }}
+>
   <article>
     <header class="mb-8">
       <h1 class="text-3xl sm:text-4xl font-semibold leading-tight mb-3">{title}</h1>
