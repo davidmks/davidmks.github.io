@@ -127,7 +127,7 @@ html {
   a {
     color: var(--ink);
     text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--muted) 22%, transparent);
+    text-decoration-color: color-mix(in srgb, var(--muted) 35%, transparent);
     text-decoration-thickness: 1px;
     text-underline-offset: 0.15em;
     transition: text-decoration-color 0.15s ease;
@@ -148,7 +148,7 @@ html {
   padding: 0;
   cursor: pointer;
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--muted) 22%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--muted) 35%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
   transition: text-decoration-color 0.15s ease;
