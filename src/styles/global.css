@@ -91,6 +91,13 @@ html {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+/* Don't smooth-scroll anchor jumps for users who ask for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* Serif display for headings; body stays Inter. In @layer base so a font-*
    utility on a heading can still override it. */
 @layer base {
@@ -104,6 +111,12 @@ html {
 
 ::selection {
   background-color: color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+/* Consistent, theme-aware keyboard focus ring (mouse focus stays clean). */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
 
 /* Content links: thin pale underline that darkens to ink on hover (monochrome).
