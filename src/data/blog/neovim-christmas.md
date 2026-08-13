@@ -1,6 +1,6 @@
 ---
 title: "The Christmas I finally switched to Neovim"
-description: ""
+description: "For years I treated Neovim as this untouchable ideal, then switched over one Christmas break. The road from VS Code to PyCharm to finally daily driving Neovim. How my earlier attempts failed, and why this one stuck."
 pubDate: 2026-01-05
 tags: ["neovim", "tooling", "editors"]
 ---

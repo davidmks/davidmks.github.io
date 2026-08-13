@@ -1,6 +1,6 @@
 ---
 title: "My first open source tool, sarj: a worktree + tmux session manager"
-description: "The problems I kept hitting with git worktrees, and how I fixed them gradually until I ended up with sarj."
+description: "The problems I kept hitting with git worktrees, and how fixing them piece by piece became my first open source tool."
 pubDate: 2026-03-25
 tags: ["git", "worktrees", "tmux", "tooling", "cli"]
 ---
