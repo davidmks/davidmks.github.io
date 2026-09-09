@@ -229,6 +229,7 @@ pre.astro-code {
 .prose blockquote {
   font-style: normal;
   border-left-width: 2px;
+  quotes: none;
 }
 
 .prose h2 {
