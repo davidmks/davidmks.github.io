@@ -40,7 +40,7 @@ These became utility scripts shared within our work repo.
 
 ## Automating the dev environment
 
-This was a pretty solid setup and did its job for a while but I thought I could still make this better. Apart from creating the worktrees, installing the deps, would be even cooler if it could set up my whole development environment: in my case meaning opening tmux with a layout that I prefer and spawn me inside of it.
+This was a pretty solid setup and did its job for a while but I thought I could still make this better. Apart from creating the worktrees, installing the deps, would be even cooler if it could set up my whole development environment: in my case meaning opening tmux with a layout that I prefer and spawn me inside it.
 
 This started off as a personal shell setup that worked for me. It basically hydrated tmux, ran the scripts and landed me into a state I otherwise had to build manually each time I started a new worktree.
 
