@@ -1,7 +1,7 @@
 ---
 title: "How I built a herdr-style notification system in tmux"
-description: "TODO"
-pubDate: 2026-09-30
+description: "I liked herdr's agent notifications but didn't want to leave tmux, so I built something similar."
+pubDate: 2026-10-02
 tags: ["claude-code", "tmux", "macos", "tooling"]
 ---
 
