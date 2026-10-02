@@ -30,7 +30,7 @@ That ADR became the source of truth, driving the refactor.
 
 ## The refactor
 
-Since it looked mostly like mechanical work (less cognitive), we decided to do it in one go and let the agent do the work mostly autonomously. I'd heard and read so many case studies about agents doing large refactors overnight with great success - I had to see this hands-on. (This was also my first significant refactor using coding agents, though I do use them regularly in my daily work.)
+Since it looked mostly like mechanical work, we decided to do it in one go and let the agent do the work mostly autonomously. I'd heard and read so many case studies about agents doing large refactors overnight with great success - I had to see this hands-on. This was also my first significant refactor using coding agents, though I do use them regularly in my daily work.
 
 I started by defining the testing rules as Claude [rules](https://code.claude.com/docs/en/memory#organize-rules-with-claude/rules/) and pointed the agent at the ADR.
 
@@ -43,18 +43,18 @@ I got around this in two ways:
 - For mechanical work (e.g. find-replace, rename) or anything deterministic, I encouraged Claude to write a script for the modification rather than doing it itself.
 - Batching my work so it doesn't interfere with my daily work and responsibilities, running jobs outside of working hours (small ones frequently) to avoid running out of tokens for the day.
 
-The bulk of the mechanical transformations was right, but some corrections had to be made for misplaced imports or any incorrect state the scripts left after themselves - although these were caught by our linters and quality checks so Claude could iterate on them quickly and clean up after its own mess.
+The bulk of the mechanical transformations was right, but some corrections had to be made for misplaced imports or any incorrect state the scripts left after themselves, although these were caught by our linters and quality checks so Claude could iterate on them quickly and clean up after its own mess.
 
-Most of the edits during this refactor, in my experience, still required reading the diff carefully to quality-check the agent's work, so some guidance was still necessary unfortunately - but after steering it in the right direction, it did most of the changes as expected.
+Most of the edits during this refactor, in my experience, still required reading the diff carefully to quality-check the agent's work, so some guidance was still necessary unfortunately, but after steering it in the right direction, it did most of the changes as expected.
 
 ## Learnings
 
-Super important - and I knew this already, but can't highlight it enough: don't use subagents for write tasks. They can eat up lots of tokens without your supervision and might come back with work that's incorrect, and you are forced to redo it because they can't be stopped like the main agent. Even if you interrupt one, the other subagents will continue - you have no reliable way of controlling them. You're much better off doing everything in the main agent, steering it until you're confident in the direction, then letting it run on auto-accept if you really want to. Only consider subagents for read-only tasks (similar to how Claude's native explore agents work).
+Super important, and I knew this already, but can't highlight it enough: don't use subagents for write tasks. They can eat up lots of tokens without your supervision and might come back with work that's incorrect, and you are forced to redo it because they can't be stopped like the main agent. Even if you interrupt one, the other subagents will continue - you have no reliable way of controlling them. You're much better off doing everything in the main agent, steering it until you're confident in the direction, then letting it run on auto-accept if you really want to. Only consider subagents for read-only tasks (similar to how Claude's native explore agents work).
 
 I'm also a big advocate for plan mode. It feels like it yields better results. The initial token investment might be larger as it does exploration, but it helps the agent gather all the info upfront and follow the plan consistently. Without it, Claude can circle back a few times, which can end up being more costly than the initial exploration. Not a silver bullet, but it brings structure to a problem. I found it helped to split the problem into smaller chunks and run those in parallel with plan mode.
 
-I was strategic about doing most of this work around the holidays (when fewer PRs were being published), but keeping a large branch in sync with main was pretty difficult. It was stressful for me, and I imagine it wasn't ideal for the reviewers either. It's a tradeoff we made because we didn't want to end up in an inconsistent state, and the refactor seemed largely mechanical and straightforward, but be cautious with these large PRs.
+I was strategic about doing most of this work around the holidays (when fewer PRs were being published), but keeping a large branch in sync with main was pretty difficult. It was stressing me out and wasn't ideal for reviews either. It's a tradeoff we made because we didn't want to end up in an inconsistent state, and the refactor seemed largely mechanical and straightforward, but be cautious with these large PRs.
 
-Nevertheless, I'm happy I did it. The refactor removed ~7,000 lines of test infrastructure and took roughly a full week, working on it "on the side" between other work and dead zones between Claude sessions. I'm grateful for these tools that allow us to be much more daring when it comes to refactors, or following up on ideas, or building tooling that would otherwise take ages and get backlogged as not worth the investment.
+Nevertheless, I'm happy I did it. The refactor removed ~7,000 lines of test infrastructure and took roughly a full week, running it on the side next to my other priorities. It's cool that you are allowed to be much more daring when it comes to refactors, following up on ideas, or building tooling that would otherwise take ages and get backlogged as not worth the investment.
 
-The overall win here is that we can be much more trigger-happy when solving tech debt - and that's a big win in my book.
+The overall win here is that we can be much more trigger-happy when solving tech debt. That's a big win in my book.
