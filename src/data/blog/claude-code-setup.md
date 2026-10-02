@@ -9,7 +9,7 @@ I feel fortunate to be working at a company that went all-in early on AI and cod
 
 We quickly realized the potential of skills (back when they were called commands) and automated some of our daily repetitive tasks. The biggest wins were probably the GitHub interactions, where we completely offloaded commits and PR creations to Claude. When listening to podcasts and reading blogs from various authoritative figures from the industry we realized that many other industry leading companies have very similar ways of interacting with these coding agents, which was very validating for us! Felt like we were really on top of our game given that the general atmosphere was "we are still figuring it out".
 
-However, we were facing some issues, mainly with our CLAUDE.md that needed to be solved. We observed that sometimes Claude doesn't obey the rules / guidelines from the CLAUDE.md. There was no mystery to us that our CLAUDE.md is way too long...
+However, we were facing some issues, mainly with our CLAUDE.md that needed to be solved. We observed that sometimes Claude doesn't obey the rules / guidelines from the CLAUDE.md. It was no mystery to us that our CLAUDE.md had gotten way too long.
 
 We were constantly expanding it during development and code review process with all the new rules that would come up, which in and of itself is a great practice, you should treat these markdowns as source code, you monitor it and if it doesn't yield the behavior that you want you modify it, and make a conscious effort for keeping it up to date. But bloated CLAUDE.mds may cause Claude to ignore your actual instructions! If Claude keeps doing something you don't want despite having a rule against it, the file is probably too long and the rule is getting lost...
 
@@ -45,9 +45,9 @@ CLAUDE.md may be broken down into multiple topic-scoped files, which only load w
 
 Skills were another big part of this migration as we wanted to migrate from old slash commands to the new skills structure. Skills are basically the same as the old commands and they remain backwards compatible as of now, but they offer some cool new stuff. Like a new directory structure which lets you bundle all kinds of references like scripts, templates, examples alongside the skill, only loaded on demand, keeping the context cheap.
 
-Also it follows the YAML frontmatter style where in the frontmatter you are supposed to include all kinds of metadata about the skill which can determine its permissions to tools, its invocability, and its discoverability. You can read more about skills here, the docs have been proven very useful so I recommend you check them out, they even offer a guideline for creating skills which drove the whole migration.
+Also it follows the YAML frontmatter style where in the frontmatter you are supposed to include all kinds of metadata about the skill which can determine its permissions to tools, its invocability, and its discoverability. You can read more about skills [here](https://code.claude.com/docs/en/skills), the docs have been proven very useful so I recommend you check them out, they even offer a guideline for creating skills which drove the whole migration.
 
-A good note I find when writing skills is _don't teach Claude what it already knows_, you don't have to overly describe everything Claude prolly already knows this stuff, ask yourself: am I over-describing the situation here, or is this already common sense for Claude?
+A good note I find when writing skills is _don't teach Claude what it already knows_, you don't have to overly describe everything Claude probably already knows this stuff, ask yourself: am I over-describing the situation here, or is this already common sense for Claude?
 
 I guess an exception here is when you wanna persist certain commands Claude should use or in a way "cache" a workflow so Claude doesn't have to rediscover it again, actually that's the whole purpose of a skill, to have a recipe that is proven to work and reusing that.
 
@@ -61,7 +61,7 @@ I also rethought how we interact with external systems. My experience and the in
 
 The reasoning isn't really "MCP eats your context window at startup", I read that a lot online (probably outdated info) Claude Code actually handles this pretty well now with on-demand MCP loading (you can see it if you run `/context`, MCP tools show up as "loaded on-demand", the full schemas only get pulled in when Claude actually reaches for them).
 
-the real reasons are subtler:
+The real reasons are:
 
 - the model already knows the common CLIs from its training data - `git`, `gh`, `aws`, `docker` - and from what I've seen it handles custom CLIs pretty well too, it'll read `--help`, parse output, figure out flags. MCP's promise was to bring a standard protocol for LLMs to communicate with external systems which is still valid, but where CLIs exist the model can already use it pretty well
 - CLIs also compose. You can pipe, filter and transform locally and only the final output hits the context. Chaining a bunch of MCP calls means each intermediate result goes through the model, burning tokens on data it doesn't actually need to see.
@@ -72,7 +72,7 @@ We used to manage all our MCP connections within the repo with the MCP config, b
 
 ## Bonus: renaming trunk → main
 
-The LLM's training data overly defaults to main, and since we used trunk we were paying a friction tax...The model would start with assuming main and would then fail and would have to retry (even after mentioning this in the CLAUDE.md sometimes we would still experience this friction) so we stopped fighting the model's training data and renamed trunk to main. (To my regret, I always found trunk much cooler than main.)
+The LLM's training data overly defaults to main, and since we used trunk we were constantly hitting friction. The model would start with assuming main and would then fail and would have to retry, so we stopped fighting the model's training data and renamed trunk to main. (To my regret, I always found trunk much cooler than main.)
 
 ## Sharing skills across repos
 
@@ -89,9 +89,9 @@ The bulk of the skills got moved into this shared repo while some project-specif
 
 Updates ship by bumping metadata.version in `marketplace.json`; Claude Code uses that field to detect new versions.
 
-## Post launch evolution aka. what I got wrong
+## Post launch aka. what I got wrong
 
-**Composability gotcha.** `disable-model-invocation` dictates how these skills are invoked:
+`disable-model-invocation` dictates how these skills are invoked:
 
 - if **true** you need to manually invoke the skill like `/commit` (has to be at the start!)
 - if **false** Claude can pick it up automatically from natural language like: commit recent changes (will trigger `/commit` automatically)
@@ -110,7 +110,7 @@ So the sequence went:
 3. Claude's next edit referenced the import in the body. But the import line is gone (Claude's model of the file is now stale vs. what's on the disk).
 4. Now Claude reads the file, notices the missing import, re-adds it (in some unlucky situations the hook would remove it again on the next turn if the usage somehow lands in a separate edit).
 
-pretty unlucky... ignoring `F401` was the right fix (not "remove the hook"), so the other functionalities of the linter would still remain useful.
+pretty unlucky... ignoring `F401` was the right fix (not remove the hook), so the other functionalities of the linter would still remain useful.
 
 so the lesson is that any hook that mutates files during a session has to be safe against partial states.
 
@@ -140,9 +140,9 @@ Claude Code lets each repo ship a committed `.claude/settings.json` with an `env
 
 Note that options 1 and 2 will both append "Sent using @Claude" after the message - not super ideal but it is what it is.\
 All in all connectors seemed to be the way to go so I went with them, working pretty well so far.\
-One more caveat: the Slack MCP won't allow you to send messages to a channel that has external users outside of your org (a Slack Connect).
+One more caveat: the Slack MCP won't allow you to send messages to a channel that has external users outside of your org.
 
 ## In the end
 
-our CLAUDE.md went from 488 → ~85 lines (83% reduction) and everything else got moved to rules and hooks. We are happy so far with the change and have been seeing good results from it. It helps tremendously automating our daily work with git, interacting with Notion, creating and analyzing tickets, sending Slack messages - it's baked into the whole web of daily tasks. \
-But this is still very much a living system - we are constantly bringing improvements to it.
+Our CLAUDE.md went from 488 → 85 lines and everything else got moved to rules and hooks. We are happy so far with the change and have been seeing good results from it. It helps tremendously automating our daily work with git, interacting with Notion, creating and analyzing tickets, sending Slack messages, it's baked into the whole web of daily tasks. \
+Although this is still an evolving system and we are constantly shaping it.
