@@ -5,7 +5,7 @@ pubDate: 2026-09-09
 tags: ["aws", "lambda", "sqs", "serverless"]
 ---
 
-Recently we ran into a series of unfortunate events with some of our SQS + Lambda configurations. They looked innocent and correct but turned out to be wrong. The mistake wasn't obvious and the inner workings are interesting enough that I wanted to share it.
+Recently we ran into a series of unfortunate events (no pun intended) with some of our SQS + Lambda configurations. They looked innocent and correct but turned out to be wrong. The mistake wasn't obvious and the inner workings are interesting enough that I wanted to share it.
 
 Some context first. Several of our lambdas must process messages one at a time. Either they call a rate-limited API, or they must not run concurrently for correctness. Our way of enforcing this was a standard SQS queue and a Lambda with `reservedConcurrentExecutions: 1`.
 
