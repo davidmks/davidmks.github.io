@@ -1,6 +1,6 @@
 ---
 title: "Reworking our CLAUDE.md: from 488 to 85 lines"
-description: "Our CLAUDE.md kept growing until Claude started ignoring the rules in it. What I cut to get from 488 lines to 85, and the mental model I used to decide what goes where."
+description: "Our CLAUDE.md kept growing until Claude started ignoring the instructions in it. How I split it up and the mental model I used to decide what goes where."
 pubDate: 2026-04-27
 tags: ["claude-code", "ai", "tooling"]
 ---
