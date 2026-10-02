@@ -206,6 +206,17 @@ html {
   text-wrap: pretty;
 }
 
+/* Images drawn for one theme: the page shows the version that matches the
+   site theme, so a transparent diagram's text stays readable. */
+.dark .img-light,
+.img-dark {
+  display: none;
+}
+
+.dark .img-dark {
+  display: block;
+}
+
 /* Shiki dual theme — light by default, dark when .dark is on */
 pre.astro-code {
   background-color: var(--code) !important;
