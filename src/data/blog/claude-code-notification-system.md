@@ -59,7 +59,7 @@ So tmux serves as a database for storing the agents' states in this case.
 
 The router in the shell script reads the JSON event and routes the event to its handler.
 - `on_working` → sets the state to **working**
-- `on_stop` → sets the state to **done** and notifies you if you are not looking, or to **idle** if you are looking skipping the notification
+- `on_stop` → sets the state to **done** and notifies you if you are not looking, or to **idle** if you are looking, skipping the notification
 - `on_blocked` → sets the state to **blocked** either way and notifies you if you are not looking
 - `on_session_end` → removes the user options from the pane
 
