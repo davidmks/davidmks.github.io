@@ -35,8 +35,8 @@ Claude hooks are the foundation of the system. With them you can define custom s
 
 2. Claude Code sends the hook a JSON object. Every payload includes context about the event and the structure varies by event.
 3. The hooks return with an exit code which tells Claude what the hook has decided.
-   - 0 means "success"
-   - 2 means "block" (if you want to stop Claude from doing an action)
+	- 0 means "success"
+	- 2 means "block" (if you want to stop Claude from doing an action)
 
 ## The shell handler
 
@@ -61,7 +61,7 @@ The router in the shell script reads the JSON event and routes the event to its 
 - `on_working` → sets the state to **working**
 - `on_stop` → sets the state to **done** and notifies you if you are not looking, to **idle** if you are looking skipping the notification
 - `on_blocked` → sets the state to **blocked** either way and notifies you if you are not looking
-- `on_session_end` → removes the user options from the pane 
+- `on_session_end` → removes the user options from the pane
 
 ## Notification
 
@@ -112,5 +112,5 @@ For the picker I chose to use tmux's built-in `choose-tree`, the same tree picke
 
 ## Wrapping up
 
-That's the whole thing. A few Claude hooks, a shell script and some tmux configurations. 
+That's the whole thing. A few Claude hooks, a shell script and some tmux configurations.
 If this inspires you and you want to build something on your own, the script and config are in my [dotfiles](https://github.com/davidmks/dotfiles).
