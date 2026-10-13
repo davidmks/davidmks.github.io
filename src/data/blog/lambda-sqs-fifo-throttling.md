@@ -3,6 +3,7 @@ title: "SQS and Lambda settings that looked right but weren't"
 description: "We used reservedConcurrentExecutions: 1 to force serial processing on SQS-triggered Lambdas. Two failures we hit, and how switching to FIFO queues with message group ids fixed it."
 pubDate: 2026-09-09
 tags: ["aws", "lambda", "sqs", "serverless"]
+draft: true
 ---
 
 Recently we ran into a series of unfortunate events (no pun intended) with some of our SQS + Lambda configurations. They looked innocent and correct but turned out to be wrong. The mistake wasn't obvious and the inner workings are interesting enough that I wanted to share it.
